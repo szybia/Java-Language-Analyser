@@ -12,6 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.SwingConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -26,6 +29,20 @@ public class mainScreen extends JFrame implements ActionListener
 	   
 	private JFileChooser fileChooser;										//FileChooser to open files
 	
+	private JMenuBar menubar;												//Creating the menu
+	   
+	private JMenu choice_file;												//Main menu choice
+	private JMenuItem openFile;												//Sub main menu choices
+	private JMenuItem openSentence;
+	
+	private JMenu choice_exit;
+	private JMenuItem exit;
+   
+	private JMenu choice_edit;												//Main menu choice 2
+	private JMenu editDictionary;											//Sub main menu menu
+	private JMenuItem editSlangWords;										//Sub menu choices
+	private JMenuItem editBadWords;
+	private JMenuItem editFancyWords;
 	
    ImageIcon img = new ImageIcon("icon.png");						//Open Icon 
 
@@ -41,6 +58,7 @@ public class mainScreen extends JFrame implements ActionListener
 	   
 	   this.initLabels();
 	   this.initButton();
+	   this.initMenu();
 	   
 	   setVisible(true);
    }
@@ -79,6 +97,70 @@ public class mainScreen extends JFrame implements ActionListener
 	   
 	   label3.setPreferredSize(new Dimension(1, 175));
 	   this.add(label3, BorderLayout.PAGE_END);
+   }
+   
+   public void initMenu()
+   {
+	   menubar = new JMenuBar();											//Creating the menu
+	   
+	   choice_file = new JMenu("File");										//Instantiating Main Menu Choice
+	   choice_file.setPreferredSize(new Dimension(60, 35));
+	   choice_file.setFont(new Font("Helvetica", Font.PLAIN, 18));
+	   
+	   openFile = new JMenuItem("Open File");
+	   openFile.setPreferredSize(new Dimension(100, 35));
+	   openFile.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   openSentence = new JMenuItem("Enter sentence");
+	   openSentence.setPreferredSize(new Dimension(130, 35));
+	   openSentence.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   choice_edit = new JMenu("Edit");
+	   choice_edit.setPreferredSize(new Dimension(60, 35));
+	   choice_edit.setFont(new Font("Helvetica", Font.PLAIN, 18));
+	   
+	   editDictionary = new JMenu("Edit Dictionary");
+	   editDictionary.setPreferredSize(new Dimension(130, 35));
+	   editDictionary.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   editSlangWords = new JMenuItem("Slang words");
+	   editSlangWords.setPreferredSize(new Dimension(130, 35));
+	   editSlangWords.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   editBadWords = new JMenuItem("Bad words");
+	   editBadWords.setPreferredSize(new Dimension(130, 35));
+	   editBadWords.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   editFancyWords = new JMenuItem("Sophisticated words");
+	   editFancyWords.setPreferredSize(new Dimension(150, 35));
+	   editFancyWords.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   choice_exit = new JMenu("Exit");										//Instantiating Main Menu Choice
+	   choice_exit.setPreferredSize(new Dimension(60, 35));
+	   choice_exit.setFont(new Font("Helvetica", Font.PLAIN, 18));
+	   
+	   exit = new JMenuItem("Exit Program");
+	   exit.setPreferredSize(new Dimension(100, 35));
+	   exit.setFont(new Font("Helvetica", Font.PLAIN, 14));
+	   
+	   menubar.add(choice_file);
+	   menubar.add(choice_edit);
+	   menubar.add(choice_exit);
+	   this.setJMenuBar(menubar);											//Creating the menu
+	   
+	   openFile.addActionListener(this);
+	   openSentence.addActionListener(this);
+	   editBadWords.addActionListener(this);
+	   editSlangWords.addActionListener(this);
+	   editFancyWords.addActionListener(this);
+	   exit.addActionListener(this);
+	   choice_file.add(openFile);
+	   choice_file.add(openSentence);
+	   choice_edit.add(editDictionary);
+	   editDictionary.add(editBadWords);
+	   editDictionary.add(editSlangWords);
+	   editDictionary.add(editFancyWords);
+	   choice_exit.add(exit);
    }
    
    public void initButton()
