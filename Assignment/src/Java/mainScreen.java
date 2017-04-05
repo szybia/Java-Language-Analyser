@@ -21,7 +21,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class mainScreen extends JFrame implements ActionListener
 {
 	private JLabel mylab;													//Top Text Jlabel
-	private JLabel label1;                                                   //Left Empty JLabel
+	private JLabel label1;                                                  //Left Empty JLabel
 	private JLabel label2;													//Right Empty JLabel
 	private JLabel label3;													//Bottom Empty JLabel
    
@@ -66,13 +66,18 @@ public class mainScreen extends JFrame implements ActionListener
    public void actionPerformed (ActionEvent e)
    {
 	   if (e.getSource().equals(button))
+	   {
+		   this.initFileChooser();
+		   if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		   {
-			   this.initFileChooser();
-			   if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-			   {
-				   
-			   }
+			   
 		   }
+	   }
+	   else if (e.getSource().equals(openSentence))
+	   {
+		   this.dispose();
+		   new SentenceScreen(this.getTitle(), img);
+	   }
 		   
    }
 	   
