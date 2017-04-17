@@ -6,9 +6,13 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,6 +37,9 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	private JTextArea wordArea;
 	private FileReader fileRead;
 	private JScrollPane TextAreaScroll;
+	private PrintWriter addWordToFile;
+	private PrintWriter deleteWordFromFile;
+	private PrintWriter resetWordList;
 	
 	private JMenuBar menubar;												//Creating the menu
 	   
@@ -59,6 +66,12 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	private JLabel emptyLabel2;
 	private JLabel emptyLabel3;
 	
+	private ImageIcon img;
+	
+	private File org_file;
+	private File temp_file;
+	private Scanner newScanner;
+	
 	public SlangWordsEdit(String title, ImageIcon img)
 	{
 		super(title);
@@ -74,6 +87,8 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		this.initMenu();
 		this.initButtons();
 		
+		this.img = img;
+		
 		setVisible(true);
 		
 	}
@@ -85,10 +100,134 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		   this.initFileChooser();
 		   if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		   {
-			    
+			    String temp = fileChooser.getSelectedFile().getAbsolutePath();
+			    temp = temp.substring(temp.length()- 3);
+			    if (temp.equals("txt"))
+			    {
+			    	new analyseFile(fileChooser.getSelectedFile()).decide();
+			    	this.dispose();
+			    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
+			    }
+			    else
+			    {
+			    	JOptionPane.showMessageDialog(null,
+			    		    "Invalid file extension.\nPlease select a .txt file",
+			    		    "File Error",
+			    		    JOptionPane.ERROR_MESSAGE);
+			    }
 		   }
 	    }
-	    
+	    else if (e.getSource().equals(openSentence))
+	    {
+		   this.dispose();
+		   new SentenceScreen(this.getTitle(), img);
+	    }
+	    else if (e.getSource().equals(editBadWords))
+	    {
+	    	this.dispose();
+	    	new BadWordsEdit(this.getTitle(), img);
+	    }
+	    else if (e.getSource().equals(editFancyWords))
+	    {
+	    	this.dispose();
+	    	new FancyWordsEdit(this.getTitle(), img);
+	    }
+	    else if (e.getSource().equals(addWord))
+	    {
+	    	String input = (String) JOptionPane.showInputDialog(null, "Enter Curse Word",
+	    														"Add Curse Word",
+	    														JOptionPane.INFORMATION_MESSAGE);
+	    	if(input != null && input != "")
+	    	{
+	    		try
+	    		{
+	    			addWordToFile = new PrintWriter(new FileWriter("Resources\\slangWords.txt", true));
+	    			addWordToFile.append("\n" + input);
+	    			addWordToFile.close();
+	    			this.dispose();
+	    			new SlangWordsEdit(this.getTitle(), img);
+	    		}
+	    		catch(IOException x)
+	    		{
+	    			JOptionPane.showMessageDialog(null,
+	    	    		    "File writing error.",
+	    	    		    "File Error",
+	    	    		    JOptionPane.ERROR_MESSAGE);
+	    		}
+	    	}
+	    }
+	    else if (e.getSource().equals(removeWord))
+	    {
+	    	String input = JOptionPane.showInputDialog(null, "Enter Curse Word",
+																"Remove Curse Word",
+																JOptionPane.INFORMATION_MESSAGE);
+	    	if(input != null && input != "")
+	    	{
+	    		try
+	    		{
+	    			org_file = new File("Resources\\slangWords.txt");
+	    			newScanner = new Scanner(org_file);
+	    			temp_file = File.createTempFile("slangWords", ".txt",
+	    											org_file.getParentFile());
+	    			deleteWordFromFile = new PrintWriter(temp_file);
+	    			while (newScanner.hasNextLine())
+	    			{
+	    				String line = newScanner.nextLine();
+	    				line = line.replace(input, "");
+	    				line = line + "\n";
+	    				deleteWordFromFile.print(line);
+	    			}
+	    		}
+	    		catch (IOException y)
+	    		{
+	    			
+	    		}
+	    		finally
+	    		{
+	    			newScanner.close();
+	    			deleteWordFromFile.close();
+	    		}
+	    		org_file.delete();
+	    		temp_file.renameTo(org_file);
+	    		this.dispose();
+    			new SlangWordsEdit(this.getTitle(), img);
+	    	}
+	    }
+	    else if (e.getSource().equals(resetList))
+	    {
+	    	try
+    		{
+    			org_file = new File("Resources\\slangBackup.txt");
+    			newScanner = new Scanner(org_file);
+    			temp_file = new File("Resources\\slangWords.txt");
+    			resetWordList = new PrintWriter(temp_file);
+    			while (newScanner.hasNextLine())
+    			{
+    				resetWordList.print(newScanner.nextLine() + "\n");
+    			}
+    		}
+    		catch (IOException y)
+    		{
+    			
+    		}
+    		finally
+    		{
+    			newScanner.close();
+    			resetWordList.close();
+    		}
+    		this.dispose();
+			new SlangWordsEdit(this.getTitle(), img);
+	    }
+		
+	    else if (e.getSource().equals(exit))
+		   {
+			   int input = JOptionPane.showConfirmDialog(null, "Are you sure you want to quit the program?"
+			   		+ "\nAll Progress will be lost.", "Exit", JOptionPane.YES_OPTION);
+			   if (input == 0)
+			   {
+				   this.dispose();
+			   }
+		   }
 	}
 	
 	public void initLabels()

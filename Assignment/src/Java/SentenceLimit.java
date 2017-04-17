@@ -14,7 +14,6 @@ public class SentenceLimit extends PlainDocument
 		this.char_limit = char_limit;
 	}
 	
-	
 	public void insertString(int offset, String str, AttributeSet attr)
 	{
 		if(str.equals(null))

@@ -74,9 +74,52 @@ public class SentenceScreen extends JFrame implements ActionListener
 		   this.initFileChooser();
 		   if(fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
 		   {
-			    
+			    String temp = fileChooser.getSelectedFile().getAbsolutePath();
+			    temp = temp.substring(temp.length()- 3);
+			    if (temp.equals("txt"))
+			    {
+			    	new analyseFile(fileChooser.getSelectedFile()).decide();
+			    	this.dispose();
+			    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
+			    }
+			    else
+			    {
+			    	JOptionPane.showMessageDialog(null,
+			    		    "Invalid file extension.\nPlease select a .txt file",
+			    		    "File Error",
+			    		    JOptionPane.ERROR_MESSAGE);
+			    }
 		   }
 	    }
+		else if (e.getSource().equals(editBadWords))
+		{
+		    this.dispose();
+		    new BadWordsEdit(this.getTitle(), img);
+	    }
+		else if (e.getSource().equals(editSlangWords))
+		{
+			this.dispose();
+			new SlangWordsEdit(this.getTitle(), img);
+		}
+		else if (e.getSource().equals(submitbutton))
+		{
+			new analyseSentence(mainfield.getText());
+		}
+		else if (e.getSource().equals(editFancyWords))
+		{
+			this.dispose();
+			new FancyWordsEdit(this.getTitle(), img);
+		}
+		else if (e.getSource().equals(exit))
+		   {
+			   int input = JOptionPane.showConfirmDialog(this,
+					   	"Are you sure you want to quit the program?"
+					   	+ "\nAll Progress will be lost.", "Exit", JOptionPane.YES_OPTION);
+			   if (input == 0)
+			   {
+				   this.dispose();
+			   }
+		   }
 	}
 	
 	public void initLabel()

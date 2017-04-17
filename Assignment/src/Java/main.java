@@ -6,5 +6,4 @@ public class main
 	{
 		new mainScreen("Language Analyser");
 	}
-
 }
