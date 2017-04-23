@@ -11,6 +11,7 @@ Language Analyser GUI Java Program to test for Slang/Formal Language.
 -GUI User friendly Error messages
 
 Demo: https://www.youtube.com/watch?v=VKxZIaX_CNs&feature=youtu.be
+https://github.com/BialkowskiSz/Java-Language-Analyser
 
 
 
