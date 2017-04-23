@@ -78,7 +78,6 @@ public class SentenceScreen extends JFrame implements ActionListener
 			    temp = temp.substring(temp.length()- 3);
 			    if (temp.equals("txt"))
 			    {
-			    	new analyseFile(fileChooser.getSelectedFile()).decide();
 			    	this.dispose();
 			    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
 			    }
@@ -103,7 +102,17 @@ public class SentenceScreen extends JFrame implements ActionListener
 		}
 		else if (e.getSource().equals(submitbutton))
 		{
-			new analyseSentence(mainfield.getText());
+			if (mainfield.getText().length() == 0)
+			{
+				JOptionPane.showMessageDialog(null, 
+						  "Please enter a sentence."
+						  ,"File Analyser", JOptionPane.INFORMATION_MESSAGE);
+			}
+			else
+			{
+				new analyseSentence(mainfield.getText());
+			}
+			
 		}
 		else if (e.getSource().equals(editFancyWords))
 		{

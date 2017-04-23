@@ -79,7 +79,6 @@ public class mainScreen extends JFrame implements ActionListener
 			    temp = temp.substring(temp.length()- 3);
 			    if (temp.equals("txt"))
 			    {
-			    	new analyseFile(fileChooser.getSelectedFile()).decide();
 			    	this.dispose();
 			    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
 			    }

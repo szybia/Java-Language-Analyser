@@ -1,5 +1,6 @@
 package Java;
 
+import javax.swing.JOptionPane;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -29,7 +30,10 @@ public class SentenceLimit extends PlainDocument
 			}
 			catch (BadLocationException e)
 			{
-				System.out.println("Invalid JTextArea.");;
+				JOptionPane.showMessageDialog(null,
+		    		    "Text Area Error.",
+		    		    "Program Error",
+		    		    JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}

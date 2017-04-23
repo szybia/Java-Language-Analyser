@@ -29,17 +29,16 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class SlangWordsEdit extends JFrame implements ActionListener
+public class BadWordsEdit extends JFrame implements ActionListener
 {
-
-	private JLabel mylab;
+	private JLabel mylab;													//Main title
 	
-	private JTextArea wordArea;
-	private FileReader fileRead;
-	private JScrollPane TextAreaScroll;
-	private PrintWriter addWordToFile;
-	private PrintWriter deleteWordFromFile;
-	private PrintWriter resetWordList;
+	private JTextArea wordArea;												//Dictionary list of bad words					
+	private FileReader fileRead;											//File reader to read in bad words from file
+	private JScrollPane TextAreaScroll;										//Scrolling functionality
+	private PrintWriter addWordToFile;										//Print writer to write to file when adding
+	private PrintWriter deleteWordFromFile;									//Print writer to write to file when deleting
+	private PrintWriter resetWordList;										////Print writer to write to file when resetting the list
 	
 	private JMenuBar menubar;												//Creating the menu
 	   
@@ -56,41 +55,40 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	private JMenuItem openSentence;
 	private JMenuItem editFancyWords;
 	
-	private JFileChooser fileChooser;										//FileChooser to open files
+	private JFileChooser fileChooser;										//FileChooser GUI to open files
     
-	private JButton addWord;
+	private JButton addWord;												//3 buttons on screen
 	private JButton removeWord;
 	private JButton resetList;
     
-	private JLabel emptyLabel;
+	private JLabel emptyLabel;												//Empty Labels for positioning other elements
 	private JLabel emptyLabel2;
 	private JLabel emptyLabel3;
+		
+	private ImageIcon img;													//Icon used for window
 	
-	private ImageIcon img;
-	
-	private File org_file;
+	private File org_file;													//File functionality for deleting an entry
 	private File temp_file;
 	private Scanner newScanner;
 	
-	public SlangWordsEdit(String title, ImageIcon img)
+	public BadWordsEdit(String title, ImageIcon img)						//Constructor
 	{
 		super(title);
 		setSize(850, 500);
 		setLayout(new FlowLayout());
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(null);										//Center
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(img.getImage());
 
-		this.initLabels();
-		this.initFileReader();
-		this.initTextField();
-		this.initMenu();
-		this.initButtons();
+		this.initLabels();													//Initiliase JLAbels
+		this.initFileReader();												//Initialise Reader for JTextArea dictionary
+		this.initTextField();												//Initialise JTextArea
+		this.initMenu();													//Initialise Menu
+		this.initButtons();													//Initialise 3 buttons
 		
 		this.img = img;
 		
 		setVisible(true);
-		
 	}
 
 	public void actionPerformed (ActionEvent e)
@@ -121,10 +119,10 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		   this.dispose();
 		   new SentenceScreen(this.getTitle(), img);
 	    }
-	    else if (e.getSource().equals(editBadWords))
+	    else if (e.getSource().equals(editSlangWords))
 	    {
 	    	this.dispose();
-	    	new BadWordsEdit(this.getTitle(), img);
+	    	new SlangWordsEdit(this.getTitle(), img);
 	    }
 	    else if (e.getSource().equals(editFancyWords))
 	    {
@@ -133,18 +131,18 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	    }
 	    else if (e.getSource().equals(addWord))
 	    {
-	    	String input = (String) JOptionPane.showInputDialog(null, "Enter Curse Word",
+	    	String input = JOptionPane.showInputDialog(null, "Enter Curse Word",
 	    														"Add Curse Word",
 	    														JOptionPane.INFORMATION_MESSAGE);
 	    	if(input != null && !input.isEmpty())
 	    	{
 	    		try
 	    		{
-	    			addWordToFile = new PrintWriter(new FileWriter("Resources\\slangWords.txt", true));
-	    			addWordToFile.append("\n" + input);
+	    			addWordToFile = new PrintWriter(new FileWriter("Resources\\badWords.txt", true));
+	    			addWordToFile.append(input + "\n");
 	    			addWordToFile.close();
 	    			this.dispose();
-	    			new SlangWordsEdit(this.getTitle(), img);
+	    			new BadWordsEdit(this.getTitle(), img);
 	    		}
 	    		catch(IOException x)
 	    		{
@@ -171,9 +169,9 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	    	{
 	    		try
 	    		{
-	    			org_file = new File("Resources\\slangWords.txt");
+	    			org_file = new File("Resources\\BadWords.txt");
 	    			newScanner = new Scanner(org_file);
-	    			temp_file = File.createTempFile("slangWords", ".txt",
+	    			temp_file = File.createTempFile("BadWords", ".txt",
 	    											org_file.getParentFile());
 	    			deleteWordFromFile = new PrintWriter(temp_file);
 	    			while (newScanner.hasNextLine())
@@ -199,7 +197,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	    		org_file.delete();
 	    		temp_file.renameTo(org_file);
 	    		this.dispose();
-    			new SlangWordsEdit(this.getTitle(), img);
+    			new BadWordsEdit(this.getTitle(), img);
 	    	}
 	    	else if (input != null && input.isEmpty())
 	    	{
@@ -213,9 +211,9 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	    {
 	    	try
     		{
-    			org_file = new File("Resources\\slangBackup.txt");
+    			org_file = new File("Resources\\backup.txt");
     			newScanner = new Scanner(org_file);
-    			temp_file = new File("Resources\\slangWords.txt");
+    			temp_file = new File("Resources\\badWords.txt");
     			resetWordList = new PrintWriter(temp_file);
     			while (newScanner.hasNextLine())
     			{
@@ -235,7 +233,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
     			resetWordList.close();
     		}
     		this.dispose();
-			new SlangWordsEdit(this.getTitle(), img);
+			new BadWordsEdit(this.getTitle(), img);
 	    }
 		
 	    else if (e.getSource().equals(exit))
@@ -251,7 +249,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	
 	public void initLabels()
 	{
-		mylab = new JLabel("Slang Word Dictionary", SwingConstants.CENTER);
+		mylab = new JLabel("Curse Word Dictionary", SwingConstants.CENTER);
 		emptyLabel = new JLabel("", SwingConstants.CENTER);
 		emptyLabel2 = new JLabel("", SwingConstants.CENTER);
 		emptyLabel3 = new JLabel("", SwingConstants.CENTER);
@@ -270,7 +268,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 	{
 		try
 		{
-			fileRead = new FileReader("resources\\slangWords.txt");
+			fileRead = new FileReader("resources\\badWords.txt");
 		}
 		catch (FileNotFoundException e)
 		{
@@ -291,7 +289,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		wordArea.setEditable(false);
 		try
 		{
-			wordArea.read(fileRead, "Resources\\slangWords.txt");
+			wordArea.read(fileRead, "Resources\\badWords.txt");
 			fileRead.close();
 		}
 		catch (IOException e)
@@ -360,7 +358,7 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		   
 		   openFile.addActionListener(this);
 		   openSentence.addActionListener(this);
-		   editBadWords.addActionListener(this);
+		   editSlangWords.addActionListener(this);
 		   editFancyWords.addActionListener(this);
 		   exit.addActionListener(this);
 		   choice_file.add(openFile);
@@ -402,7 +400,6 @@ public class SlangWordsEdit extends JFrame implements ActionListener
 		this.add(emptyLabel3);
 		this.add(resetList);
     }
-	
 	
     public void initFileChooser()
     {

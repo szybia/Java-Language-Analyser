@@ -104,14 +104,12 @@ public class analyseSentence extends JFrame
 			JOptionPane.showMessageDialog(null, 
 					  "This sentence contains sophisticated words and is most likely formal."
 					  ,"Sentence Analyser", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(numSlangWords);
 		}
 		else if(this.numSlangWords > 2)
 		{
 			JOptionPane.showMessageDialog(null, 
 					  					  "This sentence contains slang words and is not formal language."
 					  					 ,"Sentence Analyser", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(numSlangWords);
 		}
 		else if (avgWordLenght < 4)
 		{

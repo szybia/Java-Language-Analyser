@@ -59,13 +59,14 @@ public class fileCheck extends JFrame implements ActionListener
 	    this.setLocationRelativeTo(null);									//Center the window when it appears
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);						//Terminates program when closed
 	    this.img = img;
-			
-	    fileAnalyser = new analyseFile(location);
+	    
+		fileAnalyser = new analyseFile(location);	
 	    this.initMenu();
 	    this.initLabels();
-	    fileAnalyser.dispose();
 	    setVisible(true);
 	    
+	    fileAnalyser.decide();
+	    fileAnalyser.dispose();
 	}
 	
 	public void actionPerformed (ActionEvent e)
@@ -79,7 +80,6 @@ public class fileCheck extends JFrame implements ActionListener
 					    temp = temp.substring(temp.length()- 3);
 					    if (temp.equals("txt"))
 					    {
-					    	new analyseFile(fileChooser.getSelectedFile()).decide();
 					    	this.dispose();
 					    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
 					    }

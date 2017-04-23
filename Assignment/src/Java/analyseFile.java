@@ -116,11 +116,11 @@ public class analyseFile extends JFrame
 				}
 			}
 			this.numOfWords += temp.split("\\s+").length;
-			this.avgWordLenght += temp.replaceAll("\\s+","").length() / numOfWords;
+			this.avgWordLenght += temp.replaceAll("\\s+","").length();
 			
 			this.reinitFileReaders();
-			
 		}
+		this.avgWordLenght = this.avgWordLenght / this.numOfWords;
 	}
 	
 	public void decide()
@@ -129,21 +129,19 @@ public class analyseFile extends JFrame
 		{
 			JOptionPane.showMessageDialog(null, 
 										  "This file contains vulgar words and is not formal language."
-										  ,"Sentence Analyser", JOptionPane.INFORMATION_MESSAGE);
+										  ,"File Analyser", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(this.numFancyWords > 0)
 		{
 			JOptionPane.showMessageDialog(null, 
 					  "This sentence contains sophisticated words and is most likely formal."
-					  ,"Sentence Analyser", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(numSlangWords);
+					  ,"File Analyser", JOptionPane.INFORMATION_MESSAGE);
 		}
 		else if(this.numSlangWords > 2)
 		{
 			JOptionPane.showMessageDialog(null, 
 					  					  "This sentence contains slang words and is not formal language."
 					  					 ,"File Analyser", JOptionPane.INFORMATION_MESSAGE);
-			System.out.println(numSlangWords);
 		}
 		else if (avgWordLenght < 4)
 		{
@@ -155,7 +153,7 @@ public class analyseFile extends JFrame
 		{
 			JOptionPane.showMessageDialog(null, 
 					  "The files contents is most likely formal."
-					 ,"Sentence Analyser", JOptionPane.INFORMATION_MESSAGE);
+					 ,"File Analyser", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 

@@ -31,15 +31,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FancyWordsEdit extends JFrame implements ActionListener
 {
-
-	private JLabel mylab;
+private JLabel mylab;													//Main title
 	
-	private JTextArea wordArea;
-	private FileReader fileRead;
-	private JScrollPane TextAreaScroll;
-	private PrintWriter addWordToFile;
-	private PrintWriter deleteWordFromFile;
-	private PrintWriter resetWordList;
+	private JTextArea wordArea;												//Dictionary list of bad words					
+	private FileReader fileRead;											//File reader to read in bad words from file
+	private JScrollPane TextAreaScroll;										//Scrolling functionality
+	private PrintWriter addWordToFile;										//Print writer to write to file when adding
+	private PrintWriter deleteWordFromFile;									//Print writer to write to file when deleting
+	private PrintWriter resetWordList;										////Print writer to write to file when resetting the list
 	
 	private JMenuBar menubar;												//Creating the menu
 	   
@@ -56,19 +55,19 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 	private JMenuItem openSentence;
 	private JMenuItem editFancyWords;
 	
-	private JFileChooser fileChooser;										//FileChooser to open files
+	private JFileChooser fileChooser;										//FileChooser GUI to open files
     
-	private JButton addWord;
+	private JButton addWord;												//3 buttons on screen
 	private JButton removeWord;
 	private JButton resetList;
     
-	private JLabel emptyLabel;
+	private JLabel emptyLabel;												//Empty Labels for positioning other elements
 	private JLabel emptyLabel2;
 	private JLabel emptyLabel3;
+		
+	private ImageIcon img;													//Icon used for window
 	
-	private ImageIcon img;
-	
-	private File org_file;
+	private File org_file;													//File functionality for deleting an entry
 	private File temp_file;
 	private Scanner newScanner;
 	
@@ -104,7 +103,6 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 			    temp = temp.substring(temp.length()- 3);
 			    if (temp.equals("txt"))
 			    {
-			    	new analyseFile(fileChooser.getSelectedFile()).decide();
 			    	this.dispose();
 			    	new fileCheck(this.getTitle(), img, fileChooser.getSelectedFile());
 			    }
@@ -137,7 +135,7 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 	    	String input = (String) JOptionPane.showInputDialog(null, "Enter Curse Word",
 	    														"Add Curse Word",
 	    														JOptionPane.INFORMATION_MESSAGE);
-	    	if(input != null && input != "")
+	    	if(input != null && !input.isEmpty())
 	    	{
 	    		try
 	    		{
@@ -155,13 +153,20 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 	    	    		    JOptionPane.ERROR_MESSAGE);
 	    		}
 	    	}
+	    	else if (input != null && input.isEmpty())
+	    	{
+	    		JOptionPane.showMessageDialog(null,
+		    		    "Please enter a word.",
+		    		    "Invalid entry",
+		    		    JOptionPane.ERROR_MESSAGE);
+	    	}
 	    }
 	    else if (e.getSource().equals(removeWord))
 	    {
 	    	String input = JOptionPane.showInputDialog(null, "Enter Curse Word",
 																"Remove Curse Word",
 																JOptionPane.INFORMATION_MESSAGE);
-	    	if(input != null && input != "")
+	    	if(input != null && !input.isEmpty())
 	    	{
 	    		try
 	    		{
@@ -180,7 +185,10 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 	    		}
 	    		catch (IOException y)
 	    		{
-	    			
+	    			JOptionPane.showMessageDialog(null,
+	    	    		    "Missing file/files.\nPlease restore the Resources folder",
+	    	    		    "File Error",
+	    	    		    JOptionPane.ERROR_MESSAGE);
 	    		}
 	    		finally
 	    		{
@@ -191,6 +199,13 @@ public class FancyWordsEdit extends JFrame implements ActionListener
 	    		temp_file.renameTo(org_file);
 	    		this.dispose();
     			new FancyWordsEdit(this.getTitle(), img);
+	    	}
+	    	else if (input != null && input.isEmpty())
+	    	{
+	    		JOptionPane.showMessageDialog(null,
+		    		    "Please enter a word.",
+		    		    "Invalid entry",
+		    		    JOptionPane.ERROR_MESSAGE);
 	    	}
 	    }
 	    else if (e.getSource().equals(resetList))
@@ -208,7 +223,10 @@ public class FancyWordsEdit extends JFrame implements ActionListener
     		}
     		catch (IOException y)
     		{
-    			
+    			JOptionPane.showMessageDialog(null,
+    	    		    "File writing error.",
+    	    		    "File Error",
+    	    		    JOptionPane.ERROR_MESSAGE);
     		}
     		finally
     		{
