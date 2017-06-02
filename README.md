@@ -1,4 +1,5 @@
-Language Analyser GUI Java Program to test for Slang/Formal Language.
+# Java Language Analyzer
+GUI Java Program to test for Slang/Formal Language.
 
 -Functional menu for smooth transitioning  
 -FileChooser for GUI file choosing  
